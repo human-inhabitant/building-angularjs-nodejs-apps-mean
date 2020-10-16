@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const debug = require('debug')('server');
+const debug = require('debug')('app');
 
 const app = express();
 const port = process.env.PORT || 3e3;
