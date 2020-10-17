@@ -10,7 +10,14 @@ const app = express();
 const env = process.env.NODE_ENV || 'development';
 const port = process.env.PORT || 3e3;
 
-mongoose.connect('mongodb://localhost:27017/multivision', {
+let dbUrl;
+if (env === 'development') {
+  dbUrl = 'mongodb://localhost:27017/multivision';
+} else {
+  dbUrl = 'mongodb+srv://loc8r_user:eH2IswDaZrBi3wi2@cluster0.bgloi.mongodb.net/multivision?retryWrites=true&w=majority';
+}
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
