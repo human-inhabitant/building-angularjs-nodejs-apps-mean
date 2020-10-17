@@ -9,7 +9,7 @@ const debug = require('debug')('app');
 const app = express();
 const env = process.env.NODE_ENV || 'development';
 const port = process.env.PORT || 3e3;
-
+console.info(process.env.NODE_ENV);
 let dbUrl;
 if (env === 'development') {
   dbUrl = 'mongodb://localhost:27017/multivision';
