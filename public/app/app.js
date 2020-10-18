@@ -7,16 +7,8 @@
       $locationProvider.html5Mode(true);
       $routeProvider
         .when('/', {
-          templateUrl: '/partials/main',
-          controller: 'mainCtrl'
+          templateUrl: '/partials/main/main',
+          controller: 'mvMainCtrl'
         });
     });
-
-  function mainCtrl($scope) {
-    $scope.myVar = 'Hello Angular...';
-  }
-  mainCtrl.$inject = ['$scope'];
-  angular
-    .module('app')
-    .controller('mainCtrl', mainCtrl);
 }());

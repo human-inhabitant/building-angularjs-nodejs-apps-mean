@@ -1,0 +1,5 @@
+div(ng-controller="mvNavBarLoginCtrl")
+  div(ng-hide="identity.isAuthenticated()")
+    input.form-control-dark.mr-sm-2(type="text" placeholder="Email", ng-model="username")
+    input.form-control-dark.mr-sm-2(type="password", placeholder="Password", ng-model="password")
+    button.btn.btn-dark(ng-click="signIn(username, password)") Sign In

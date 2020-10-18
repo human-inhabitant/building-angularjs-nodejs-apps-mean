@@ -1,61 +1,48 @@
 const express = require('express');
-const stylus = require('stylus');
-const path = require('path');
-const morgan = require('morgan');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const debug = require('debug')('app');
 
 const app = express();
 const env = process.env.NODE_ENV || 'development';
-const port = process.env.PORT || 3e3;
-console.info(process.env.NODE_ENV);
-let dbUrl;
-if (env === 'development') {
-  dbUrl = 'mongodb://localhost:27017/multivision';
-} else {
-  dbUrl = 'mongodb+srv://loc8r_user:eH2IswDaZrBi3wi2@cluster0.bgloi.mongodb.net/multivision?retryWrites=true&w=majority';
-}
+const config = require('./server/config/config')[env];
 
-mongoose.connect(dbUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-mongoose.connection.on('error', (err) => {
-  debug(`MongoDB connection error:${err}`);
-});
-mongoose.connection.once('open', () => {
-  debug('MongoDB connection opened to multivision');
-});
-const messageSchema = mongoose.Schema({ message: String });
-const Message = mongoose.model('Message', messageSchema);
-let mongoMessage;
-Message.findOne().exec((err, messageDoc) => {
-  mongoMessage = messageDoc.message;
-});
+require('./server/config/express')(app, config);
+require('./server/config/mongoose')(config);
 
-app.set('views', path.join(__dirname, '/server/views'));
-app.set('view engine', 'jade');
-
-app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(stylus.middleware({
-  src: path.join(__dirname, '/public'),
-  compile: (str, pth) => stylus(str).set('filename', pth)
+const User = mongoose.model('User');
+passport.use(new LocalStrategy((username, password, done) => {
+  debug('LocalStrategy', username);
+  User
+    .findOne({ userName: username }, (err, user) => {
+      debug('user', user);
+      if (user) {
+        return done(null, user);
+      }
+      return done(null, false);
+    });
 }));
-app.use(express.static(path.join(__dirname, '/public')));
-
-app.get('/partials/:partialPath', (req, res) => {
-  res.render(path.join('partials', req.params.partialPath));
+passport.serializeUser((user, done) => {
+  debug('Serialize', user);
+  if (user) {
+    // eslint-disable-next-line no-underscore-dangle
+    done(null, user._id);
+  }
 });
-app.get('*', (req, res) => {
-  res.render('index', {
-    mongoMessage
+passport.deserializeUser((id, done) => {
+  debug('Deserialize', id);
+  User.findOne({ _id: id }).exec((err, user) => {
+    if (user) {
+      return done(null, user);
+    }
+    return done(null, false);
   });
 });
 
-app.server = app.listen(port, () => {
+require('./server/config/routes')(app);
+
+app.server = app.listen(config.port, () => {
   debug(`Start: ${new Date()}`);
-  debug(`Listening on port: ${port}`);
+  debug(`Listening on port: ${config.port}`);
 });

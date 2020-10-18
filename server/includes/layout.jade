@@ -1,5 +1,5 @@
 doctype
-html
+html.h-100
   head
     meta(charset="utf-8")
     base(href="/")
@@ -7,8 +7,9 @@ html
     link(rel="stylesheet", href="/assets/vendor/bootstrap/dist/css/bootstrap.css")
     link(rel="stylesheet", href="/assets/vendor/toastr/toastr.css")
     link(rel="stylesheet", href="/assets/css/site.css")
+    title MultiVision
 
-  body(ng-app="app")
+  body.d-flex.flex-column.h-100(ng-app="app")
     block main-content
 
     include scripts

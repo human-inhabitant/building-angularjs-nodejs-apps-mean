@@ -1,0 +1,1 @@
+<div class="card bg-light mb-4"><div class="card-header">New Courses</div><div class="card-body"><div ng-repeat="course in courses | orderBy:'published':true | limitTo:10" class="row"><div class="col-3">{{course.published | date:'MMM d'}}</div><div class="col-9">{{course.name}}</div></div></div></div>
