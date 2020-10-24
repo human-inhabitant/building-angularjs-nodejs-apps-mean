@@ -1,5 +1,16 @@
 div(ng-controller="mvNavBarLoginCtrl")
-  div(ng-hide="identity.isAuthenticated()")
-    input.form-control-dark.mr-sm-2(type="text" placeholder="Email", ng-model="username")
-    input.form-control-dark.mr-sm-2(type="password", placeholder="Password", ng-model="password")
-    button.btn.btn-dark(ng-click="signIn(username, password)") Sign In
+  form.form-inline.my-2.my-lg-0
+    div(ng-hide="identity.isAuthenticated()")
+      input.form-control-dark.mr-sm-2(type="text" placeholder="Email", ng-model="username")
+      input.form-control-dark.mr-sm-2(type="password", placeholder="Password", ng-model="password")
+      button.btn.btn-dark(ng-click="signIn(username, password)") Sign In
+
+  div(ng-show="identity.isAuthenticated()")
+    ul.navbar-nav
+      li.nav-item.dropdown
+        a.nav-link.dropdown-toggle(href="#", data-toggle="dropdown")
+          | {{identity.currentUser.firstName + ' ' + identity.currentUser.lastName}}
+          b.caret
+        div.dropdown-menu
+          a.dropdown-item(href="/admin/users", ng-show="identity.currentUser.isAdmin()") User Admin
+          a.dropdown-item(href="", ng-click="signOut()") Sign Out

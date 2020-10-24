@@ -22,8 +22,30 @@ function configAuth(req, res, next) {
       }
       res.send({ success: true, user });
     });
+    return true;
   });
   auth(req, res, next);
 }
 
-module.exports = configAuth;
+function requiresApiLogin(req, res, next) {
+  if (!req.isAuthenticated()) {
+    res.status(403);
+    res.end();
+  } else {
+    next();
+  }
+}
+
+function requiresRole(role) {
+  return (req, res, next) => {
+    console.info('req.user', req.user);
+    if (!req.isAuthenticated() || req.user.roles.indexOf(role) === -1) {
+      res.status(403);
+      res.end();
+    } else {
+      next();
+    }
+  };
+}
+
+module.exports = { configAuth, requiresApiLogin, requiresRole };

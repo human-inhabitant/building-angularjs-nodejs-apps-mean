@@ -1,10 +1,19 @@
 /* eslint-disable no-undef */
 (function () {
-  function mvIdentity() {
+  function mvIdentity($window, mvUser) {
+    let currentUser;
+    if ($window.bootstrappedUserObject) {
+      // eslint-disable-next-line new-cap
+      currentUser = new mvUser();
+      angular.extend(currentUser, $window.bootstrappedUserObject);
+    }
     return {
-      currentUser: undefined,
+      currentUser,
       isAuthenticated() {
-        return !!this.currentUser;
+        return this.currentUser;
+      },
+      isAuthorized() {
+        return this.currentUser && this.currentUser.roles.indexOf('admin') > -1;
       }
     };
   }

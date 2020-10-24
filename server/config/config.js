@@ -1,14 +1,16 @@
 const path = require('path');
+
 const rootPath = path.normalize(path.join(__dirname, '..', '..'));
+const dbUrl = process.env.DB_URL || 'mongodb://localhost/multivision';
 
 module.exports = {
   development: {
-    dbUrl: 'mongodb://localhost/multivision',
+    dbUrl,
     port: process.env.PORT || 3e3,
     rootPath
   },
   production: {
-    dbUrl: 'mongodb+srv://loc8r_user:eH2IswDaZrBi3wi2@cluster0.bgloi.mongodb.net/multivision?retryWrites=true&w=majority',
+    dbUrl,
     port: process.env.PORT || 80,
     rootPath
   }
