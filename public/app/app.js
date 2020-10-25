@@ -35,6 +35,10 @@
         .when('/signup', {
           templateUrl: '/partials/account/signup',
           controller: 'mvSignUpCtrl'
+        })
+        .when('/courses', {
+          templateUrl: '/partials/courses/course-list',
+          controller: 'mvCourseListCtrl'
         });
     });
   angular

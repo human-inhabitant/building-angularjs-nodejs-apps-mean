@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const debug = require('debug')('app:configMongoose');
 const userModel = require('../models/User');
+const courseModel = require('../models/Course');
 
 function configMongoose(config) {
   mongoose.connect(config.dbUrl, {
@@ -15,6 +16,7 @@ function configMongoose(config) {
     debug('MongoDB connection opened to MultiVision');
   });
   userModel.createDefaultUsers();
+  courseModel.createDefaultCourses();
 }
 
 module.exports = configMongoose;

@@ -1,6 +1,7 @@
 const path = require('path');
 const debug = require('debug')('app:configRoutes');
 const auth = require('./auth');
+const courses = require('../controllers/courses');
 const users = require('../controllers/users');
 
 function configRoutes(app) {
@@ -10,6 +11,8 @@ function configRoutes(app) {
   app.post('/api/users', users.createUser);
   app.put('/api/users', users.updateUser);
 
+  app.get('/api/courses', courses.getCourses);
+
   app.get('/partials/*', (req, res) => {
     res.render(path.join('..', '..', 'public', 'app', req.params[0]));
   });
@@ -18,6 +21,10 @@ function configRoutes(app) {
   app.post('/logout', (req, res) => {
     req.logout();
     res.end();
+  });
+
+  app.all('/api/*', (req, res) => {
+    res.send(404);
   });
 
   app.get('*', (req, res) => {

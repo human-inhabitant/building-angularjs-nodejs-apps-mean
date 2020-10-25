@@ -1,0 +1,21 @@
+h2.display-4 Courses
+.d-flex.justify-content-sm-end
+  form.form-inline
+    .form-group.mr-sm-2
+      input.form-control.form-control-sm(ng-model="searchText", placeholder="Filter")
+    .form-group
+      select.form-control.form-control-sm(ng-model="sortOrder" ng-options="item.value as item.text for item in sortOptions")
+.table-responsive-sm.my-3
+  table.table.table-striped.table-hover.table-sm
+    caption List of current courses.
+    thead
+      tr
+        th(scope="col") #
+        th(scope="col") Title
+        th(scope="col") Publish Date
+    tbody
+      tr(ng-repeat="course in courses | filter:searchText | orderBy:sortOrder")
+        td(scope="row") {{$index + 1}}
+        td {{course.title}}
+        td {{course.published | date}}
+
