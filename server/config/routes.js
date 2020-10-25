@@ -12,6 +12,7 @@ function configRoutes(app) {
   app.put('/api/users', users.updateUser);
 
   app.get('/api/courses', courses.getCourses);
+  app.get('/api/courses/:id', courses.getCourseById);
 
   app.get('/partials/*', (req, res) => {
     res.render(path.join('..', '..', 'public', 'app', req.params[0]));
