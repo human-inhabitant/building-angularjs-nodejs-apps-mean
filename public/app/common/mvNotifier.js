@@ -5,6 +5,10 @@
       notify(msg) {
         mvToastr.success(msg);
         console.info(msg);
+      },
+      error(msg) {
+        mvToastr.error(msg);
+        console.error(msg);
       }
     };
   }

@@ -1,8 +1,11 @@
 div(ng-controller="mvNavBarLoginCtrl")
   form.form-inline.my-2.my-lg-0
     div(ng-hide="identity.isAuthenticated()")
-      input.form-control-dark.mr-sm-2(type="text" placeholder="Email", ng-model="username")
-      input.form-control-dark.mr-sm-2(type="password", placeholder="Password", ng-model="password")
+      ul.navbar-nav.mr-auto
+        li.nav-item.active
+          a.nav-link(href="/signup") Sign Up
+      input.form-control-dark.mr-sm-2(type="text", autocomplete="username", placeholder="Email", ng-model="username")
+      input.form-control-dark.mr-sm-2(type="password", autocomplete="current-password", placeholder="Password", ng-model="password")
       button.btn.btn-dark(ng-click="signIn(username, password)") Sign In
 
   div(ng-show="identity.isAuthenticated()")

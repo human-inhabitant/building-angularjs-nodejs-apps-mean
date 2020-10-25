@@ -29,6 +29,21 @@
         }
         return $q.reject('not authorized');
       },
+      createUser(newUserData) {
+        // eslint-disable-next-line new-cap
+        const newUser = new mvUser(newUserData);
+        const deferred = $q.defer();
+        function resolve() {
+          // eslint-disable-next-line no-param-reassign
+          mvIdentity.currentUser = newUser;
+          deferred.resolve();
+        }
+        function reject(response) {
+          deferred.reject(response.data.reason);
+        }
+        newUser.$save().then(resolve, reject);
+        return deferred.promise;
+      },
       logOutUser() {
         const deferred = $q.defer();
         $http

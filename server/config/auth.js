@@ -4,6 +4,8 @@ const debug = require('debug')('app:configAuth');
 /* eslint-disable no-undef */
 function configAuth(req, res, next) {
   debug('Authenticating...');
+
+  req.body.userName = req.body.userName.toLowerCase();
   // eslint-disable-next-line consistent-return
   const auth = passport.authenticate('local', {
     successRedirect: '/login',
