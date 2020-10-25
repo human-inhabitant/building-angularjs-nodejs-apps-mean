@@ -29,6 +29,12 @@
         }
         return $q.reject('not authorized');
       },
+      authorizeAuthenticatedUserForRoute() {
+        if (mvIdentity.isAuthenticated()) {
+          return true;
+        }
+        return $q.reject('not authorized');
+      },
       createUser(newUserData) {
         // eslint-disable-next-line new-cap
         const newUser = new mvUser(newUserData);
@@ -53,6 +59,21 @@
             mvIdentity.currentUser = undefined;
             deferred.resolve();
           });
+        return deferred.promise;
+      },
+      updateCurrentUser(newUserData) {
+        const deferred = $q.defer();
+        const clone = angular.copy(mvIdentity.currentUser);
+        angular.extend(clone, newUserData);
+        function resolve() {
+          // eslint-disable-next-line no-param-reassign
+          mvIdentity.currentUser = clone;
+          deferred.resolve();
+        }
+        function reject(response) {
+          deferred.reject(response.data.reason);
+        }
+        clone.$update().then(resolve, reject);
         return deferred.promise;
       }
     };

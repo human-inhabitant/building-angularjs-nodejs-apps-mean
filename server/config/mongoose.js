@@ -5,7 +5,8 @@ const userModel = require('../models/User');
 function configMongoose(config) {
   mongoose.connect(config.dbUrl, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   });
   mongoose.connection.on('error', (err) => {
     debug(`MongoDB connection error:${err}`);

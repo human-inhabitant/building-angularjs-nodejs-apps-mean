@@ -1,0 +1,24 @@
+h2.display-4 User Profile
+hr
+form(name="profileForm")
+  .form-group.row
+    label.col-sm-2.col-form-label(for="fname") First Name
+    .col-sm-10
+      input.form-control(id="fname", name="fname", type="text", placeholder="First Name", ng-model="fname", required)
+  .form-group.row
+    label.col-sm-2.col-form-label(for="lname") Last Name
+    .col-sm-10
+      input.form-control(id="lname", name="lname", type="text", placeholder="Last Name", ng-model="lname", required)
+  .form-group.row
+    label.col-sm-2.col-form-label(for="email") Email
+    .col-sm-10
+      input.form-control(id="email", name="email", type="email", autocomplete="username", placeholder="Email", ng-model="email", required)
+  .form-group.row
+    label.col-sm-2.col-form-label(for="password") Password
+    .col-sm-10
+      input.form-control(id="password", name="password", type="password", autocomplete="current-password", placeholder="Password", ng-model="password")
+  .form-group.row
+    .col-sm-10.offset-sm-2
+      button.btn.btn-primary(ng-click="update()", ng-disabled="profileForm.$invalid") Update
+      | &nbsp;
+      a.btn.btn-outline-secondary(href="/") Cancel
